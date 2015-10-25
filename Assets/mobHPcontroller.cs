@@ -8,7 +8,7 @@ public class mobHPcontroller : MonoBehaviour {
     public Vector3 Offset;
 	// Use this for initialization
 	void Start () {
-        target = GameObject.Find("Mob");
+        //target = GameObject.Find("Mob");
     }
 	
 	// Update is called once per frame

@@ -23,6 +23,7 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ChooseNearestMob();
         if (target.gameObject)
             followmob();
          /*transform.LookAt(target.transform); //保持物件一直面朝target
@@ -31,9 +32,28 @@ public class AIboll : MonoBehaviour
          //player.destination = target.position;
     }
 
+    private void ChooseNearestMob()
+    {
+        var AllMob = mobcontroller.FindObjectsOfType<mobcontroller>();
+        if (AllMob.Length > 0)
+        {
+            float Nearest = Vector2.Distance(AllMob[0].transform.position, transform.position);
+            target = AllMob[0].gameObject;
+            for (int i = 1; i < AllMob.Length; ++i)
+            {
+                float d = Vector2.Distance(AllMob[i].transform.position, transform.position);
+                if (d < Nearest)
+                {
+                    d = Nearest;
+                    target = AllMob[i].gameObject;
+                }
+            }
+        }
+    }
+
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "Mob")
+        if (other.gameObject.tag == "mob")
         {                        
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -52,14 +72,16 @@ public class AIboll : MonoBehaviour
             int hurt=3;
             hp -= hurt;
             ValueShowOut.Born(gameObject, hurt);
-
-            Destroyme();
+            if (hp <= 0)
+            {
+                Destroyme();
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "Mob")
+        if (other.gameObject.tag == "mob")
 
             timer = 1.5f;
     }

@@ -40,10 +40,11 @@ public partial class ValueShowOut : BGWBase
     public static void Born(GameObject mother, int v)
     {
         var vso = Instantiate<ValueShowOut>(ValueShowOut.FindObjectOfType<ValueShowOut>());
+        vso.gameObject.name = "ValueShowOut:" + Time.time;
         vso.Range = 100;
         vso.FadeSpeed = 0.5f;
         vso.Start();
-        vso.transform.parent = Canvas.FindObjectOfType<Canvas>().transform;
+        vso.transform.SetParent(Canvas.FindObjectOfType<Canvas>().transform);
         vso.transform.position = Camera.main.WorldToScreenPoint(mother.transform.position);
         vso.SetValue(v);
     }
