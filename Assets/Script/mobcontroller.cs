@@ -32,7 +32,9 @@ public class mobcontroller : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {              
         if (other.gameObject.CompareTag  ("attack")){
-            mobHP--;
+            int hurt=1;
+            mobHP-=hurt;
+            ValueShowOut.Born( gameObject, hurt);
             setMobText();
         }
         else if (other.gameObject.CompareTag("Player"))

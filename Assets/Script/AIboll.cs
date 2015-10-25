@@ -9,6 +9,8 @@ public class AIboll : MonoBehaviour
     public Transform atk;
     public const int AI_ATTACK_DISTANCE = 2;
     private float timer;
+    public int hp = 5;
+    public ValueShowOut aValueShowOut;
 
     // Use this for initialization
     void Start()
@@ -47,6 +49,10 @@ public class AIboll : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("atkzon"))
         {
+            int hurt=3;
+            hp -= hurt;
+            ValueShowOut.Born(gameObject, hurt);
+
             Destroyme();
         }
     }
