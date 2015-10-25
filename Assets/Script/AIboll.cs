@@ -9,6 +9,8 @@ public class AIboll : MonoBehaviour
     public Transform atk;
     public const int AI_ATTACK_DISTANCE = 2;
     private float timer;
+    public int hp = 5;
+    public ValueShowOut aValueShowOut;
 
     // Use this for initialization
     void Start()
@@ -20,13 +22,37 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         if (target)
+=======
+        ChooseNearestMob();
+        if (target.gameObject)
+>>>>>>> 98e7d72c2392b715bb1990115d115cc349e297f5
             followmob();
+    }
+
+    private void ChooseNearestMob()
+    {
+        var AllMob = mobcontroller.FindObjectsOfType<mobcontroller>();
+        if (AllMob.Length > 0)
+        {
+            float Nearest = Vector2.Distance(AllMob[0].transform.position, transform.position);
+            target = AllMob[0].gameObject;
+            for (int i = 1; i < AllMob.Length; ++i)
+            {
+                float d = Vector2.Distance(AllMob[i].transform.position, transform.position);
+                if (d < Nearest)
+                {
+                    d = Nearest;
+                    target = AllMob[i].gameObject;
+                }
+            }
+        }
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "Mob")
+        if (other.gameObject.tag == "mob")
         {                        
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -37,13 +63,19 @@ public class AIboll : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("atkzon"))
         {
-            Destroyme();
+            int hurt=3;
+            hp -= hurt;
+            ValueShowOut.Born(gameObject, hurt);
+            if (hp <= 0)
+            {
+                Destroyme();
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "Mob")
+        if (other.gameObject.tag == "mob")
 
             timer = 1.5f;
     }
