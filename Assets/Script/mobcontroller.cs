@@ -18,10 +18,12 @@ public class mobcontroller : MonoBehaviour {
         atkTimer = 6;
         setMobText();
         model = GameObject.Find("Mob");
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
+        mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
         run();
         if (mobHP <= 0)
         {

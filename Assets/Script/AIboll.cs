@@ -13,7 +13,6 @@ public class AIboll : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //player = GetComponent<NavMeshAgent>();
         target = GameObject.Find("Mob");
         timer = 1;
     }
@@ -21,12 +20,8 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target.gameObject)
+        if (target)
             followmob();
-         /*transform.LookAt(target.transform); //保持物件一直面朝target
-         if (Vector3.Distance(transform.position, target.transform.position) > AI_ATTACK_DISTANCE)
-             transform.Translate(Vector3.forward * Time.deltaTime * 3);*/
-         //player.destination = target.position;
     }
 
     void OnTriggerStay(Collider other)
@@ -36,14 +31,9 @@ public class AIboll : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                //print("Boll attack");
                 Instantiate(atk, transform.position, transform.rotation);
                 timer = 1;
             }
-            /*if (other.gameObject.CompareTag("atkzon"))
-            {
-                Destroyme();
-            }*/
         }
         else if (other.gameObject.CompareTag("atkzon"))
         {
