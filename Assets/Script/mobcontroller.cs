@@ -17,12 +17,8 @@ public class mobcontroller : MonoBehaviour {
         mobHP = 50;
         atkTimer = 6;
         setMobText();
-<<<<<<< HEAD
         model = GameObject.Find("Mob");
-        
-=======
         model = gameObject;
->>>>>>> 98e7d72c2392b715bb1990115d115cc349e297f5
     }
 	
 	// Update is called once per frame

@@ -22,12 +22,9 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
         if (target)
-=======
         ChooseNearestMob();
-        if (target.gameObject)
->>>>>>> 98e7d72c2392b715bb1990115d115cc349e297f5
+        if (target)
             followmob();
     }
 
