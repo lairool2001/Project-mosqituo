@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Assets\BGW.cs" />
     <Compile Include="Assets\Script\AIboll.cs" />
+    <Compile Include="Assets\Script\Timecon.cs" />
     <Compile Include="Assets\Script\bollatkzon.cs" />
     <Compile Include="Assets\Script\bollcreat.cs" />
     <Compile Include="Assets\Script\mobcontroller.cs" />
