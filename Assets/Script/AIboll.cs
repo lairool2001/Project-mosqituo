@@ -19,14 +19,12 @@ public class AIboll : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        target = GameObject.Find("Mob");
         timer = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target)
         ChooseNearestMob();
         if (target)
             followmob();

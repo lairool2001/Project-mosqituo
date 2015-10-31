@@ -13,13 +13,13 @@ public class mobHPcontroller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!target.gameObject)
+        if (target.gameObject)
         {
-            Destroy(gameObject);
+            ShowHPText.transform.position = Camera.main.WorldToScreenPoint(target.transform.position) + Offset;
         }
         else
         {
-            ShowHPText.transform.position = Camera.main.WorldToScreenPoint(target.transform.position) + Offset;
+            Destroy(gameObject);
         }
 	}
 }
