@@ -9,13 +9,16 @@ public class AIboll : MonoBehaviour
     public Transform atk;
     public const int AI_ATTACK_DISTANCE = 2;
     private float timer;
-    public int hp = 5;
+    public float hp=5;
+    public int hurt = 3;
+    public float runspeed = 1.5f;
+    public float atkspeed = 1.5f;
     public ValueShowOut aValueShowOut;
+    
 
     // Use this for initialization
     void Start()
     {
-        //player = GetComponent<NavMeshAgent>();
         target = GameObject.Find("Mob");
         timer = 1;
     }
@@ -23,17 +26,15 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (target)
         ChooseNearestMob();
-        if (target.gameObject)
+        if (target)
             followmob();
-         /*transform.LookAt(target.transform); //保持物件一直面朝target
-         if (Vector3.Distance(transform.position, target.transform.position) > AI_ATTACK_DISTANCE)
-             transform.Translate(Vector3.forward * Time.deltaTime * 3);*/
-         //player.destination = target.position;
     }
 
     private void ChooseNearestMob()
     {
+        target = GameObject.Find("Mob");
         var AllMob = mobcontroller.FindObjectsOfType<mobcontroller>();
         if (AllMob.Length > 0)
         {
@@ -58,18 +59,13 @@ public class AIboll : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                //print("Boll attack");
                 Instantiate(atk, transform.position, transform.rotation);
                 timer = 1;
             }
-            /*if (other.gameObject.CompareTag("atkzon"))
-            {
-                Destroyme();
-            }*/
         }
         else if (other.gameObject.CompareTag("atkzon"))
         {
-            int hurt=3;
+            
             hp -= hurt;
             ValueShowOut.Born(gameObject, hurt);
             if (hp <= 0)
@@ -83,7 +79,7 @@ public class AIboll : MonoBehaviour
     {
         if (other.gameObject.tag == "mob")
 
-            timer = 1.5f;
+            timer =  1.5f;
     }
 
     void Destroyme()
@@ -95,6 +91,6 @@ public class AIboll : MonoBehaviour
     {
         transform.LookAt(target.transform); //保持物件一直面朝target
         if (Vector3.Distance(transform.position, target.transform.position) > AI_ATTACK_DISTANCE)
-            transform.Translate(Vector3.forward * Time.deltaTime * 3);
+            transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
     }
 }

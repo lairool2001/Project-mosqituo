@@ -8,20 +8,23 @@ public class mobcontroller : MonoBehaviour {
     public Transform atkzon;
 
     private float atkTimer;    
-    private int mobHP;
+    public int mobHP=50;
+    public int hurt = 1;
 
     private int aaa = 0;
     GameObject model;
     // Use this for initialization
     void Start () {
-        mobHP = 50;
+        //mobHP = 50;
         atkTimer = 6;
         setMobText();
+        model = GameObject.Find("Mob");
         model = gameObject;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
         run();
         if (mobHP <= 0)
         {
@@ -32,7 +35,7 @@ public class mobcontroller : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {              
         if (other.gameObject.CompareTag  ("attack")){
-            int hurt=1;
+            
             mobHP-=hurt;
             ValueShowOut.Born( gameObject, hurt);
             setMobText();
