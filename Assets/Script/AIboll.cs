@@ -4,22 +4,26 @@ using UnityEngine.UI;
 
 public class AIboll : MonoBehaviour
 {
-    public NavMeshAgent player;
+    //public NavMeshAgent player;
     public GameObject target;
     public Transform atk;
-    public const int AI_ATTACK_DISTANCE = 2;
+    public Transform faratk;
+    //public const int AI_ATTACK_DISTANCE = 2;                    //近戰距離
+    //public const int AI_RENGER_DISTANCE = 5;                   //遠攻距離
     private float timer;
     public float hp=5;
+    public float renger = 2;                            //攻擊距離
     public int hurt = 3;
+    public int type;                                                                 // 0 是近戰，1 是遠攻，2 是撿東西
     public float runspeed = 1.5f;
     public float atkspeed = 1.5f;
     public ValueShowOut aValueShowOut;
-    
 
+    private bool targeted = false;
     // Use this for initialization
     void Start()
     {
-        timer = 1;
+        timer = atkspeed;
     }
 
     // Update is called once per frame
@@ -28,6 +32,10 @@ public class AIboll : MonoBehaviour
         ChooseNearestMob();
         if (target)
             followmob();
+        else
+            targeted = false;
+        if (targeted == true)
+            far_atk();
     }
 
     private void ChooseNearestMob()
@@ -51,17 +59,17 @@ public class AIboll : MonoBehaviour
     }
 
     void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "mob")
+    {        
+        if (other.gameObject.tag == "mob")                 //這是攻擊的時候
         {                        
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
                 Instantiate(atk, transform.position, transform.rotation);
-                timer = 1;
+                timer = atkspeed;
             }
         }
-        else if (other.gameObject.CompareTag("atkzon"))
+        else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
         {
             
             hp -= hurt;
@@ -77,7 +85,7 @@ public class AIboll : MonoBehaviour
     {
         if (other.gameObject.tag == "mob")
 
-            timer =  1.5f;
+            timer =  atkspeed;
     }
 
     void Destroyme()
@@ -86,9 +94,33 @@ public class AIboll : MonoBehaviour
     }
 
     void followmob()
-    {
-        transform.LookAt(target.transform); //保持物件一直面朝target
-        if (Vector3.Distance(transform.position, target.transform.position) > AI_ATTACK_DISTANCE)
-            transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
+    {        
+        if (type == 0)  //近戰
+        {
+            transform.LookAt(target.transform); //保持物件一直面朝target
+            if (Vector3.Distance(transform.position, target.transform.position) > renger)
+                transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
+        }
+        else if (type == 1)  //遠程
+        {            
+            transform.LookAt(target.transform); //保持物件一直面朝target
+            if (Vector3.Distance(transform.position, target.transform.position) > renger)
+            {
+                transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
+                targeted = false;
+            }
+            else
+                targeted = true;
+        }
+    }
+
+    void far_atk()
+    {        
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            Instantiate(faratk, transform.position, transform.rotation);
+            timer = atkspeed;
+        }
     }
 }

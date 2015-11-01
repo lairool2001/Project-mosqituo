@@ -66,16 +66,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BGW.cs" />
     <Compile Include="Assets\Script\AIboll.cs" />
+    <Compile Include="Assets\Script\BGW.cs" />
     <Compile Include="Assets\Script\Timecon.cs" />
+    <Compile Include="Assets\Script\ValueShowOut.cs" />
     <Compile Include="Assets\Script\bollatkzon.cs" />
     <Compile Include="Assets\Script\bollcreat.cs" />
+    <Compile Include="Assets\Script\flyitemcontroller.cs" />
+    <Compile Include="Assets\Script\mobHPcontroller.cs" />
     <Compile Include="Assets\Script\mobcontroller.cs" />
+    <Compile Include="Assets\Script\terraincontroller.cs" />
     <Compile Include="Assets\Script\trigger.cs" />
-    <Compile Include="Assets\ValueShowOut.cs" />
-    <Compile Include="Assets\mobHPcontroller.cs" />
-    <Compile Include="Assets\terraincontroller.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
