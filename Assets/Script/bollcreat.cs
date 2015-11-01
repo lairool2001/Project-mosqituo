@@ -30,49 +30,49 @@ public class bollcreat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
         {
-            if (ignoreClick)
+            if (Input.GetMouseButtonDown(0) && hit.transform.gameObject.tag == "ground")
             {
-                return;
-            }
-            // ここでの注意点は座標の引数にVector2を渡すのではなく、Vector3を渡すことである。
-            // Vector3でマウスがクリックした位置座標を取得する
-            clickPosition = Input.mousePosition;
+                if (ignoreClick)
+                {
+                    return;
+                }
 
-            // Z軸修正
-            clickPosition.z = 30;
+                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                clickPosition.y = 0.5f;// Z軸修正
+                print(clickPosition);
 
-            if (bollname == "characterred")
-            {
-                if (rcount > 0)
+                if (bollname == "characterred")
                 {
-                    // オブジェクト生成 : オブジェクト(GameObject), 位置(Vector3), 角度(Quaternion)
-                    // ScreenToWorldPoint(位置(Vector3))：スクリーン座標をワールド座標に変換する
-                    Instantiate(Prefab, setcamera.ScreenToWorldPoint(clickPosition), Prefab.transform.rotation);
-                    rcount--;
+                    if (rcount > 0)
+                    {                        
+                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                        rcount--;
+                    }
                 }
-            }
-            else if (bollname == "characterblue")
-            {
-                if (bcount > 0)
+                else if (bollname == "characterblue")
                 {
-                    Instantiate(Prefab, setcamera.ScreenToWorldPoint(clickPosition), Prefab.transform.rotation);
-                    bcount--;
+                    if (bcount > 0)
+                    {
+                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                        bcount--;
+                    }
                 }
-            }
-            else if (bollname == "charactergreen")
-            {
-                if (gcount > 0)
+                else if (bollname == "charactergreen")
                 {
-                    Instantiate(Prefab, setcamera.ScreenToWorldPoint(clickPosition), Prefab.transform.rotation);
-                    gcount--;
+                    if (gcount > 0)
+                    {
+                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                        gcount--;
+                    }
                 }
+                setbolltext();
             }
-            setbolltext();
         }
     }
-
     public void bollchange(GameObject boll) //用來取得按鈕的事件
     {
         Prefab = boll;                      //按下按鈕之後，對應的物件會成為Prrefad
