@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{8410B284-A7C6-1C6A-1C84-3F2E53C6849D}") = "Project-mosqituo", "Assembly-CSharp.csproj", "{768B77CC-529D-0A59-AA05-75A7F48F7CB0}"
+Project("{EF777F76-17B7-EBA4-A0C3-50C012282BE1}") = "ProjectMosqituo", "Assembly-CSharp.csproj", "{66B6FEAA-4A12-A543-243F-B56504F8386F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{768B77CC-529D-0A59-AA05-75A7F48F7CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{768B77CC-529D-0A59-AA05-75A7F48F7CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{768B77CC-529D-0A59-AA05-75A7F48F7CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{768B77CC-529D-0A59-AA05-75A7F48F7CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B6FEAA-4A12-A543-243F-B56504F8386F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B6FEAA-4A12-A543-243F-B56504F8386F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B6FEAA-4A12-A543-243F-B56504F8386F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B6FEAA-4A12-A543-243F-B56504F8386F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-														GlobalSection(MonoDevelopProperties) = preSolution
+	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
@@ -36,5 +36,4 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 	EndGlobalSection
-
 EndGlobal

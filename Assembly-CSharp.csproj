@@ -54,7 +54,6 @@
      <Compile Include="Assets\Script\flyitemcontroller.cs" />
      <Compile Include="Assets\Script\mobHPcontroller.cs" />
      <Compile Include="Assets\Script\mobcontroller.cs" />
-     <Compile Include="Assets\Script\terraincontroller.cs" />
      <Compile Include="Assets\Script\trigger.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
