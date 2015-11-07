@@ -17,9 +17,9 @@ public class bollcreat : MonoBehaviour
 
     // Use this for initialization
     public Camera setcamera;
-    private int rcount = 20;        //物件的數量
-    private int bcount = 20;
-    private int gcount = 20;
+    private int rcount = 3000;        //物件的數量
+    private int bcount = 3000;
+    private int gcount = 3000;
     bool ignoreClick;
     // Use this for initialization
     void Start()
@@ -34,7 +34,7 @@ public class bollcreat : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
         {
-            if (Input.GetMouseButtonDown(0) && hit.transform.gameObject.tag == "ground")
+            if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "ground")
             {
                 if (ignoreClick)
                 {
