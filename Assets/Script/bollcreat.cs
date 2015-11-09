@@ -17,9 +17,9 @@ public class bollcreat : MonoBehaviour
 
     // Use this for initialization
     public Camera setcamera;
-    private int rcount = 20;        //物件的數量
-    private int bcount = 20;
-    private int gcount = 20;
+    private int rcount = 3000;        //物件的數量
+    private int bcount = 3000;
+    private int gcount = 3000;
     bool ignoreClick;
     // Use this for initialization
     void Start()
@@ -30,46 +30,27 @@ public class bollcreat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ignoreClick)
+        {
+            return;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
         {
-            if (Input.GetMouseButtonDown(0) && hit.transform.gameObject.tag == "ground")
+            if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "ground")
             {
-                if (ignoreClick)
-                {
-                    return;
-                }
-
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                 clickPosition.y = 0.5f;// Z軸修正
                 print(clickPosition);
-
-                if (bollname == "characterred")
-                {
-                    if (rcount > 0)
-                    {                        
-                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
-                        rcount--;
-                    }
-                }
-                else if (bollname == "characterblue")
-                {
-                    if (bcount > 0)
-                    {
-                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
-                        bcount--;
-                    }
-                }
-                else if (bollname == "charactergreen")
-                {
-                    if (gcount > 0)
-                    {
-                        Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
-                        gcount--;
-                    }
-                }
-                setbolltext();
+                creat();
+            }
+            else if(Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
+            {
+                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                clickPosition.y = 0.5f;// Z軸修正
+                print(clickPosition);
+                creat();
             }
         }
     }
@@ -92,5 +73,34 @@ public class bollcreat : MonoBehaviour
         rText.text = "X:" + rcount.ToString();
         gText.text = "X:" + gcount.ToString();
         bText.text = "X:" + bcount.ToString();
+    }
+
+    void creat()          //生成球的程式碼
+    {
+        if (bollname == "characterred")
+        {
+            if (rcount > 0)
+            {
+                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                rcount--;
+            }
+        }
+        else if (bollname == "characterblue")
+        {
+            if (bcount > 0)
+            {
+                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                bcount--;
+            }
+        }
+        else if (bollname == "charactergreen")
+        {
+            if (gcount > 0)
+            {
+                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                gcount--;
+            }
+        }
+        setbolltext();
     }
 }
