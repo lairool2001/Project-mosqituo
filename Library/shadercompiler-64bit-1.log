@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Base path: C:/Program Files/Unity/Editor/Data
 Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-10296
 Cmd: getPlatforms
@@ -931,3 +932,16 @@ Cmd: compileSnippet
   api=5 type=0 insize=1032 outsize=1189 kw= pd=UNITY_NO_DXT5nm UNITY_NO_RGBM UNITY_NO_SCREENSPACE_SHADOWS UNITY_NO_LINEAR_COLORSPACE ok=1
 Cmd: compileSnippet
   api=5 type=1 insize=1032 outsize=6 kw= pd=UNITY_NO_DXT5nm UNITY_NO_RGBM UNITY_NO_SCREENSPACE_SHADOWS UNITY_NO_LINEAR_COLORSPACE ok=1
+=======
+Base path: A:/Program Files/Unity522f1/Editor/Data
+Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-14472
+Cmd: getPlatforms
+Cmd: compileSnippet
+  api=4 type=0 insize=1482 outsize=2038 kw=SOFTPARTICLES_ON pd= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1482 outsize=1550 kw=SOFTPARTICLES_ON pd= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1482 outsize=1290 kw=SOFTPARTICLES_OFF pd= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1482 outsize=827 kw=SOFTPARTICLES_OFF pd= ok=1
+>>>>>>> bc4b1890f46f8d3c0cd8079ccc35565ec5cae0e3
