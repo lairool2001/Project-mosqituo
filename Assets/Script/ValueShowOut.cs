@@ -37,12 +37,28 @@ public partial class ValueShowOut : BGWBase
     {
         aText.text = v.ToString();
     }
+    /// <summary>
+    /// 用來產生文字飛濺
+    /// </summary>
+    /// <param name="mother">從哪裡為中心點往外發出去的遊戲物件</param>
+    /// <param name="v">數值</param>
     public static void Born(GameObject mother, int v)
+    {
+        Born(mother, v, 100, 0.5f);
+    }
+    /// <summary>
+    /// 用來產生文字飛濺
+    /// </summary>
+    /// <param name="mother">從哪裡為中心點往外發出去的遊戲物件</param>
+    /// <param name="v">數值</param>
+    /// <param name="range">範圍(單位:視窗單位)</param>
+    /// <param name="fadeSpeed">完全淡化所需時間)</param>
+    public static void Born(GameObject mother, int v,float range,float fadeSpeed)
     {
         var vso = Instantiate<ValueShowOut>(ValueShowOut.FindObjectOfType<ValueShowOut>());
         vso.gameObject.name = "ValueShowOut:" + Time.time;
-        vso.Range = 100;
-        vso.FadeSpeed = 0.5f;
+        vso.Range = range;
+        vso.FadeSpeed = fadeSpeed;
         vso.Start();
         vso.transform.SetParent(Canvas.FindObjectOfType<Canvas>().transform);
         vso.transform.position = Camera.main.WorldToScreenPoint(mother.transform.position);

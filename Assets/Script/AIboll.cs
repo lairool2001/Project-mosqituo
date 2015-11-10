@@ -17,7 +17,6 @@ public class AIboll : MonoBehaviour
     public int type;                                                                 // 0 是近戰，1 是遠攻，2 是撿東西
     public float runspeed = 1.5f;
     public float atkspeed = 1.5f;
-    public ValueShowOut aValueShowOut;
 
     private bool targeted = false;
     // Use this for initialization
@@ -71,12 +70,15 @@ public class AIboll : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
         {
-
-            hp -= GetComponent<mobcontroller>().hurt;
-            ValueShowOut.Born(gameObject, hurt);
-            if (hp <= 0)
+            mobcontroller mc = GetComponent<mobcontroller>();
+            if (mc)
             {
-                Destroyme();
+                hp -= mc.hurt;
+                ValueShowOut.Born(gameObject, hurt);
+                if (hp <= 0)
+                {
+                    Destroyme();
+                }
             }
         }
     }
