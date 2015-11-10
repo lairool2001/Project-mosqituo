@@ -11,9 +11,9 @@ public class AIboll : MonoBehaviour
     //public const int AI_ATTACK_DISTANCE = 2;                    //近戰距離
     //public const int AI_RENGER_DISTANCE = 5;                   //遠攻距離
     private float timer;
-    public float hp=5;
+    public float hp = 5;
     public float renger = 2;                            //攻擊距離
-    public int hurt = 3;
+    public int hurt;
     public int type;                                                                 // 0 是近戰，1 是遠攻，2 是撿東西
     public float runspeed = 1.5f;
     public float atkspeed = 1.5f;
@@ -59,9 +59,9 @@ public class AIboll : MonoBehaviour
     }
 
     void OnTriggerStay(Collider other)
-    {        
+    {
         if (other.gameObject.tag == "mob")                 //這是攻擊的時候
-        {                        
+        {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -71,8 +71,8 @@ public class AIboll : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
         {
-            
-            hp -= hurt;
+
+            hp -= GetComponent<mobcontroller>().hurt;
             ValueShowOut.Born(gameObject, hurt);
             if (hp <= 0)
             {
@@ -85,7 +85,7 @@ public class AIboll : MonoBehaviour
     {
         if (other.gameObject.tag == "mob")
 
-            timer =  atkspeed;
+            timer = atkspeed;
     }
 
     void Destroyme()
@@ -94,7 +94,7 @@ public class AIboll : MonoBehaviour
     }
 
     void followmob()
-    {        
+    {
         if (type == 0)  //近戰
         {
             transform.LookAt(target.transform); //保持物件一直面朝target
@@ -102,7 +102,7 @@ public class AIboll : MonoBehaviour
                 transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
         }
         else if (type == 1)  //遠程
-        {            
+        {
             transform.LookAt(target.transform); //保持物件一直面朝target
             if (Vector3.Distance(transform.position, target.transform.position) > renger)
             {
@@ -115,12 +115,16 @@ public class AIboll : MonoBehaviour
     }
 
     void far_atk()
-    {        
+    {
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
             Instantiate(faratk, transform.position, transform.rotation);
             timer = atkspeed;
         }
+    }
+    public void mobattack(int attack)
+    {
+        hp -= attack;
     }
 }

@@ -15,7 +15,6 @@ public class mobcontroller : MonoBehaviour {
     GameObject model;
     // Use this for initialization
     void Start () {
-        //mobHP = 50;
         atkTimer = 6;
         setMobText();
         model = GameObject.Find("Mob");
@@ -35,8 +34,9 @@ public class mobcontroller : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {              
         if (other.gameObject.CompareTag  ("attack")){
-            
-            mobHP-=hurt;
+                        
+            //mobHP -= other.GetComponent<AIboll>().hurt;
+            mobHP -= hurt;
             ValueShowOut.Born( gameObject, hurt);
             setMobText();
         }
@@ -46,7 +46,6 @@ public class mobcontroller : MonoBehaviour {
             if (atkTimer <= 0)
             {
                 Instantiate(atkzon, transform.position, transform.rotation);
-               // Destroy(other);
                 atkTimer = 6;
             }
         }
@@ -108,4 +107,8 @@ public class mobcontroller : MonoBehaviour {
         }
     }
 
+    public void playerattack(int attack)
+    {
+        mobHP -= attack;
+    }
 }
