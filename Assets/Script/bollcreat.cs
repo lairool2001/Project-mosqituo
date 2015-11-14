@@ -12,11 +12,14 @@ public class bollcreat : MonoBehaviour
     public Text bText;
     public Text gText;
 
+
+
     // クリックした位置座標
     private Vector3 clickPosition;
 
     // Use this for initialization
     public Camera setcamera;
+    private int touchcount;
     private int rcount = 3000;        //物件的數量
     private int bcount = 3000;
     private int gcount = 3000;
@@ -24,6 +27,7 @@ public class bollcreat : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Input.multiTouchEnabled = true;
         setbolltext();              //改變UI上顯示的文字
     }
 
@@ -42,14 +46,14 @@ public class bollcreat : MonoBehaviour
             {
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                 clickPosition.y = 0.5f;// Z軸修正
-                print(clickPosition);
+                                       //print(clickPosition);
                 creat();
             }
-            else if(Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
+            else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
             {
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                 clickPosition.y = 0.5f;// Z軸修正
-                print(clickPosition);
+                                       //print(clickPosition);
                 creat();
             }
         }

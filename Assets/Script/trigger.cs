@@ -4,7 +4,7 @@ using System.Collections;
 public class trigger : MonoBehaviour {
 
     public GameObject mob;
-    
+
     // Use this for initialization
     void Start() {
 
