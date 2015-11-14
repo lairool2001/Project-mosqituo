@@ -45,6 +45,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\MobManager.cs" />
      <Compile Include="Assets\Script\AIboll.cs" />
      <Compile Include="Assets\Script\BGW.cs" />
      <Compile Include="Assets\Script\Timecon.cs" />

@@ -12,6 +12,7 @@ public partial class ValueShowOut : BGWBase
     public Text aText;
     public Vector3 Direction;
     public float Range = 1,FadeSpeed=0.3f;
+    public static ValueShowOut m;
 }
 public partial class ValueShowOut : BGWBase
 {
@@ -55,7 +56,11 @@ public partial class ValueShowOut : BGWBase
     /// <param name="fadeSpeed">完全淡化所需時間)</param>
     public static void Born(GameObject mother, int v,float range,float fadeSpeed)
     {
-        var vso = Instantiate<ValueShowOut>(ValueShowOut.FindObjectOfType<ValueShowOut>());
+        if (m==null)
+        {
+            m = ValueShowOut.FindObjectOfType<ValueShowOut>();
+        }
+        var vso = Instantiate<ValueShowOut>(m);
         vso.gameObject.name = "ValueShowOut:" + Time.time;
         vso.Range = range;
         vso.FadeSpeed = fadeSpeed;
