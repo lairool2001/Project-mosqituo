@@ -10,14 +10,14 @@ public class mobcontroller : MonoBehaviour {
     private float atkTimer;    
     public int mobHP=50;
     public int hurt = 1;
-
+    public float Speed = 1;
     private int aaa = 0;
     GameObject model;
     // Use this for initialization
     void Start () {
         atkTimer = 6;
         setMobText();
-        model = GameObject.Find("Mob");
+        //model = GameObject.Find("Mob");
         model = gameObject;
     }
 	
@@ -30,12 +30,14 @@ public class mobcontroller : MonoBehaviour {
             Destroy(gameObject);
         }
 	}
+    void OnDestroy()
+    {
+        SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
+    }
 
     void OnTriggerStay(Collider other)
     {              
         if (other.gameObject.CompareTag  ("attack")){
-                        
-            //mobHP -= other.GetComponent<AIboll>().hurt;
             mobHP -= hurt;
             ValueShowOut.Born( gameObject, hurt);
             setMobText();
@@ -64,7 +66,7 @@ public class mobcontroller : MonoBehaviour {
     {
         if (aaa == 0) //如果aaa是0的狀態下
         {
-            model.transform.Translate(0.05f, 0, 0);
+            model.transform.Translate(Speed * Time.deltaTime, 0, 0);
             //model會往x軸的方向向右持續移動0.2個單位
             if (model.transform.position.x >= 3)
             //如果當model物件的x軸向右移動到3的位置
@@ -75,7 +77,7 @@ public class mobcontroller : MonoBehaviour {
 
         if (aaa == 1) //如果aaa是1的狀態下
         {
-            model.transform.Translate(0, 0, 0.05f);
+            model.transform.Translate(0, 0, Speed*Time.deltaTime);
             //model會往z軸的方向向內持續移動0.2個單位
             if (model.transform.position.z >= 3)
             //如果當model物件的z軸向內移動到3的位置
@@ -86,7 +88,7 @@ public class mobcontroller : MonoBehaviour {
 
         if (aaa == 2) //如果aaa是2的狀態下
         {
-            model.transform.Translate(-0.05f, 0, 0);
+            model.transform.Translate(-Speed * Time.deltaTime, 0, 0);
             //model會往x軸的方向向左持續移動0.2個單位
             if (model.transform.position.x <= -3)
             //如果當model物件的x軸向左移動到0的位置
@@ -97,7 +99,7 @@ public class mobcontroller : MonoBehaviour {
 
         if (aaa == 3) //如果aaa是3的狀態下
         {
-            model.transform.Translate(0, 0, -0.05f);
+            model.transform.Translate(0, 0, -Speed * Time.deltaTime);
             //model會往z軸的方向向外持續移動0.2個單位
             if (model.transform.position.z <= -3)
             //如果當model物件的z軸向右移動到0的位置

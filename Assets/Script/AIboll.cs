@@ -19,16 +19,25 @@ public class AIboll : MonoBehaviour
     public float atkspeed = 1.5f;
 
     private bool targeted = false;
+    public float FindTime, FineTimeLength = 0.5f;
+    public MobManager aMobManager;
     // Use this for initialization
     void Start()
     {
         timer = atkspeed;
+        aMobManager = FindObjectOfType<MobManager>();
+        target = aMobManager.AllMob[0].gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChooseNearestMob();
+        if (FindTime < Time.time)
+        {
+            FindTime = Time.time + FineTimeLength;
+            ChooseNearestMob();
+
+        }
         if (target)
             followmob();
         else
@@ -39,21 +48,16 @@ public class AIboll : MonoBehaviour
 
     private void ChooseNearestMob()
     {
-        target = GameObject.Find("Mob");
-        var AllMob = mobcontroller.FindObjectsOfType<mobcontroller>();
-        if (AllMob.Length > 0)
+        System.Collections.Generic.List<mobcontroller> AllMob = aMobManager.AllMob;
+        if (AllMob.Count == 0) { return; }
+        float Nearest = Vector2.Distance(AllMob[0].transform.position, transform.position);
+        target = AllMob[0].gameObject;
+        for (int i = 1; i < AllMob.Count; ++i)
         {
-            float Nearest = Vector2.Distance(AllMob[0].transform.position, transform.position);
-            target = AllMob[0].gameObject;
-            for (int i = 1; i < AllMob.Length; ++i)
-            {
-                float d = Vector2.Distance(AllMob[i].transform.position, transform.position);
-                if (d < Nearest)
-                {
-                    d = Nearest;
-                    target = AllMob[i].gameObject;
-                }
-            }
+            float d = Vector2.Distance(AllMob[i].transform.position, transform.position);
+            if (d >= Nearest) { continue; }
+            d = Nearest;
+            target = AllMob[i].gameObject;
         }
     }
 
