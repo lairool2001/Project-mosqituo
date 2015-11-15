@@ -20,7 +20,7 @@ public class mobcontroller : MonoBehaviour {
         //model = GameObject.Find("Mob");
         model = gameObject;
     }
-	
+	//開始測試Git
 	// Update is called once per frame
 	void Update () {
         mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
