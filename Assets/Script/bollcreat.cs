@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class bollcreat : MonoBehaviour
@@ -12,22 +13,25 @@ public class bollcreat : MonoBehaviour
     public Text bText;
     public Text gText;
 
-
-
     // クリックした位置座標
     private Vector3 clickPosition;
 
     // Use this for initialization
     public Camera setcamera;
-    private int touchcount;
+
     private int rcount = 3000;        //物件的數量
     private int bcount = 3000;
     private int gcount = 3000;
     bool ignoreClick;
+
+    //多點觸控測試
+    private List<GameObject> touchList = new List<GameObject>();
+    private GameObject[] touchold;
+    private RaycastHit hit;
+
     // Use this for initialization
     void Start()
     {
-        Input.multiTouchEnabled = true;
         setbolltext();              //改變UI上顯示的文字
     }
 
@@ -38,7 +42,8 @@ public class bollcreat : MonoBehaviour
         {
             return;
         }
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
+        touch();
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
         {
@@ -56,8 +61,9 @@ public class bollcreat : MonoBehaviour
                                        //print(clickPosition);
                 creat();
             }
-        }
+        }*/
     }
+
     public void bollchange(GameObject boll) //用來取得按鈕的事件
     {
         Prefab = boll;                      //按下按鈕之後，對應的物件會成為Prrefad
@@ -106,5 +112,68 @@ public class bollcreat : MonoBehaviour
             }
         }
         setbolltext();
+    }
+
+    void touch()
+    {
+        if (Input.touchCount > 0)
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
+            {
+                touchold = new GameObject[touchList.Count];
+                touchList.CopyTo(touchold);
+                touchList.Clear();
+
+                foreach (Touch touch in Input.touches)
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(touch.position);
+
+
+                    if (Physics.Raycast(ray, out hit/*, touchInputmask*/))
+                    {
+                        GameObject recipient = hit.transform.gameObject;
+                        touchList.Add(recipient);
+
+                        if (hit.transform.gameObject.tag == "ground")
+                        {
+                            clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                            clickPosition.y = 0.5f; // Z軸修正
+                                                    //print(clickPosition);
+                            creat();
+                        }
+                        else if (hit.transform.gameObject.tag == "Player")
+                        {
+                            clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                            clickPosition.y = 0.5f; // Z軸修正
+                                                    //print(clickPosition);
+                            creat();
+                        }
+
+                        /* if (touch.phase == TouchPhase.Began)
+                         {
+                             recipient.SendMessage("OnTouchDown", hit.point, SendMessageOptions.DontRequireReceiver);
+                         }
+                         if (touch.phase == TouchPhase.Ended)
+                         {
+                             recipient.SendMessage("OnTouchUp", hit.point, SendMessageOptions.DontRequireReceiver);
+                         }
+                         if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                         {
+                             recipient.SendMessage("OnTouchStay", hit.point, SendMessageOptions.DontRequireReceiver);
+                         }
+                         if (touch.phase == TouchPhase.Canceled)
+                         {
+                             recipient.SendMessage("OnTouchExit", hit.point, SendMessageOptions.DontRequireReceiver);
+                         }*/
+                        //}
+                    }
+                    foreach (GameObject g in touchold)
+                    {
+                        if (!touchList.Contains(g))
+                        {
+                            g.SendMessage("OnTouchExit", hit.point, SendMessageOptions.DontRequireReceiver);
+                        }
+                    }
+                }
+            }
     }
 }
