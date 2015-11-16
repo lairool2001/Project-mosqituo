@@ -42,26 +42,11 @@ public class bollcreat : MonoBehaviour
         {
             return;
         }
+#if UNITY_EDITOR_WIN
+        usemouse();//使用滑鼠
+#endif
         touch();
-        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
-        {
-            if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "ground")
-            {
-                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                clickPosition.y = 0.5f;// Z軸修正
-                                       //print(clickPosition);
-                creat();
-            }
-            else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
-            {
-                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                clickPosition.y = 0.5f;// Z軸修正
-                                       //print(clickPosition);
-                creat();
-            }
-        }*/
+
     }
 
     public void bollchange(GameObject boll) //用來取得按鈕的事件
@@ -114,6 +99,30 @@ public class bollcreat : MonoBehaviour
         setbolltext();
     }
 
+    //使用滑鼠生成
+    void usemouse(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
+        {
+            if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "ground")
+            {
+                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                clickPosition.y = 0.5f;// Z軸修正
+                                       //print(clickPosition);
+                creat();
+            }
+            else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
+            {
+                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                clickPosition.y = 0.5f;// Z軸修正
+                                       //print(clickPosition);
+                creat();
+            }
+        }
+    }
+
+    //使用觸控生成
     void touch()
     {
         if (Input.touchCount > 0)
