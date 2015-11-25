@@ -10,35 +10,44 @@ public class mobcontroller : MonoBehaviour {
     private float atkTimer;    
     public int mobHP=50;
     public int hurt = 1;
-    public float Speed = 1;
-    private int aaa = 0;
+
     GameObject model;
+    Vector3 test;
+
+    private int i_RandomStatus;
+    private int i_Mile;
+    private float i_Direntionx;
+    private float i_Direntionz;
+    float f_Distance;
     // Use this for initialization
     void Start () {
+        i_RandomStatus = Random.Range(0, 4);
+        i_Mile = Random.Range(1, 3);
+        i_Direntionx = Random.Range(-0.1f, 0.1f);
+        i_Direntionz = Random.Range(-0.1f, 0.1f);
+        //mobHP = 50;
         atkTimer = 6;
         setMobText();
-        //model = GameObject.Find("Mob");
+        model = GameObject.Find("Mob");
         model = gameObject;
+        test = model.transform.localPosition;
     }
 	
 	// Update is called once per frame
 	void Update () {
         mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
-        run();
+        run(test);
         if (mobHP <= 0)
         {
             Destroy(gameObject);
         }
 	}
-    void OnDestroy()
-    {
-        SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
-    }
 
     void OnTriggerStay(Collider other)
     {              
         if (other.gameObject.CompareTag  ("attack")){
-            mobHP -= hurt;
+            
+            mobHP-=hurt;
             ValueShowOut.Born( gameObject, hurt);
             setMobText();
         }
@@ -48,6 +57,7 @@ public class mobcontroller : MonoBehaviour {
             if (atkTimer <= 0)
             {
                 Instantiate(atkzon, transform.position, transform.rotation);
+               // Destroy(other);
                 atkTimer = 6;
             }
         }
@@ -62,55 +72,28 @@ public class mobcontroller : MonoBehaviour {
     {
         mobHPText.text = "HP: " + mobHP.ToString();
     }
-    void run()
+    void run(Vector3 vec3)
     {
-        if (aaa == 0) //如果aaa是0的狀態下
+		//決定了移動的方向 但也會影響到移動速度(必須解決)
+        model.transform.Translate(i_Direntionx, 0, i_Direntionz);
+		//用畢氏定理算移動距離
+        f_Distance=Mathf.Pow(Mathf.Pow(Mathf.Abs(model.transform.position.x - vec3.x),2)+Mathf.Pow(Mathf.Abs(model.transform.position.y - vec3.y),2),0.5f);
+        
+//不讓他跑出去特定範圍的if條件
+        if (f_Distance >= i_Mile || model.transform.position.x > 10 || model.transform.position.x < -10 || model.transform.position.z > 10 || model.transform.position.z < -10)
+        //用下面這個會亂跑喔
+		//if (f_Distance >= i_Mile )
         {
-            model.transform.Translate(Speed * Time.deltaTime, 0, 0);
-            //model會往x軸的方向向右持續移動0.2個單位
-            if (model.transform.position.x >= 3)
-            //如果當model物件的x軸向右移動到3的位置
+			//有關test的可以先不要理會 我是在測試一些其它辦法
+            test = model.transform.localPosition;
+            i_RandomStatus = Random.Range(0, 4);
+            i_Mile = Random.Range(3, 5);
+            do
             {
-                aaa = 1; //則aaa就會變成1，這時model物件就不會繼續往右移動。
-            }
+                i_Direntionx = Random.Range(-0.1f, 0.1f);
+                i_Direntionz = Random.Range(-0.1f, 0.1f);
+                //BroadcastMessage("" + i_Direntionx + "," + i_Direntionx);
+            } while (i_Direntionx < -0.05f || i_Direntionx > 0.05f || i_Direntionz < -0.05f || i_Direntionz > 0.05f);//限定他的速度範圍 希望能讓其中一項= 0.1或-0.1 但有點問題
         }
-
-        if (aaa == 1) //如果aaa是1的狀態下
-        {
-            model.transform.Translate(0, 0, Speed*Time.deltaTime);
-            //model會往z軸的方向向內持續移動0.2個單位
-            if (model.transform.position.z >= 3)
-            //如果當model物件的z軸向內移動到3的位置
-            {
-                aaa = 2; //則aaa就會變成2，這時model物件就不會繼續往內移動。
-            }
-        }
-
-        if (aaa == 2) //如果aaa是2的狀態下
-        {
-            model.transform.Translate(-Speed * Time.deltaTime, 0, 0);
-            //model會往x軸的方向向左持續移動0.2個單位
-            if (model.transform.position.x <= -3)
-            //如果當model物件的x軸向左移動到0的位置
-            {
-                aaa = 3; //則aaa就會變成3，這時model物件就不會繼續往左移動。
-            }
-        }
-
-        if (aaa == 3) //如果aaa是3的狀態下
-        {
-            model.transform.Translate(0, 0, -Speed * Time.deltaTime);
-            //model會往z軸的方向向外持續移動0.2個單位
-            if (model.transform.position.z <= -3)
-            //如果當model物件的z軸向右移動到0的位置
-            {
-                aaa = 0; //則aaa就會變成0，這時model物件就不會繼續往外移動。
-            }
-        }
-    }
-
-    public void playerattack(int attack)
-    {
-        mobHP -= attack;
     }
 }
