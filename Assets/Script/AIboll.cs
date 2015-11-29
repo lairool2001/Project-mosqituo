@@ -26,7 +26,6 @@ public class AIboll : MonoBehaviour
     {
         timer = atkspeed;
         aMobManager = FindObjectOfType<MobManager>();
-        target = aMobManager.AllMob[0].gameObject;
     }
 
     // Update is called once per frame
@@ -36,9 +35,8 @@ public class AIboll : MonoBehaviour
         {
             FindTime = Time.time + FineTimeLength;
             ChooseNearestMob();
-
         }
-        if (target)
+        if (aMobManager.MobExit && target)
             followmob();
         else
             targeted = false;

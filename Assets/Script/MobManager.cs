@@ -10,6 +10,12 @@ using System.Collections.Generic;
 public partial class MobManager : BGWBase
 {
     public List<mobcontroller> AllMob;
+    public bool MobOver
+    {
+        get { return AllMob.Count == 0; }
+    }
+    public bool MobExit
+    { get { return AllMob.Count != 0; } }
 }
 public partial class MobManager : BGWBase
 {

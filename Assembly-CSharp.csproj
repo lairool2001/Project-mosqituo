@@ -57,6 +57,7 @@
      <Compile Include="Assets\Script\mobHPcontroller.cs" />
      <Compile Include="Assets\Script\mobcontroller.cs" />
      <Compile Include="Assets\Script\trigger.cs" />
+     <Compile Include="Assets\StrongSetTransform.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>A:/Program Files/Unity522f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
