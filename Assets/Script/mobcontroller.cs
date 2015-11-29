@@ -6,8 +6,11 @@ public class mobcontroller : MonoBehaviour {
     public Text mobHPText;
     public GameObject Target;
     public Transform atkzon;
+    //trigger mcollider;
+    public GameObject mco;
 
-    private float atkTimer;    
+    public bool isAttack=false;
+    private float atkTimer;
     public int mobHP=50;
     public int hurt = 1;
 
@@ -26,13 +29,17 @@ public class mobcontroller : MonoBehaviour {
         i_Direntionx = Random.Range(-0.1f, 0.1f);
         i_Direntionz = Random.Range(-0.1f, 0.1f);
         //mobHP = 50;
-        atkTimer = 6;
+        atkTimer = 3;
         setMobText();
         model = GameObject.Find("Mob");
         model = gameObject;
         test = model.transform.localPosition;
+        //mcollider = GameObject.Find("hitcollider").GetComponent<trigger>();
+        //mcollider.sethit(hurt);
+        //trigger mobset = GetComponent<trigger>();
+        mco.GetComponent<trigger>().sethit(hurt);
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
@@ -41,32 +48,47 @@ public class mobcontroller : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+        /*if(isAttack){
+            for(atkTimer;atk)
+            atkTimer -= Time.deltaTime;
+            if(atkTimer <= 0){
+                mcollider.GetComponent<Collider>().enabled = true;
+            }
+        }*/
 	}
 
     void OnTriggerStay(Collider other)
-    {              
-        if (other.gameObject.CompareTag  ("attack")){
-            
+    {
+        /*if (other.gameObject.CompareTag  ("attack")){
+
             mobHP-=hurt;
             ValueShowOut.Born( gameObject, hurt);
             setMobText();
         }
-        else if (other.gameObject.CompareTag("Player"))
+        else */if (other.gameObject.CompareTag("Player"))
         {
+            //isAttack=true;
             atkTimer -= Time.deltaTime;
             if (atkTimer <= 0)
-            {
-                Instantiate(atkzon, transform.position, transform.rotation);
-               // Destroy(other);
-                atkTimer = 6;
-            }
+                {
+                other.GetComponent<AIboll>().playerHit(hurt);
+
+                /*Instantiate(atkzon, transform.position, transform.rotation);
+                Destroy(other);*/
+                atkTimer = 3;
+                }
         }
+    }
+
+    IEnumerator wait(){
+        yield return new WaitForSeconds(3);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            atkTimer = 6;
+            //atkTimer = 6;
+            isAttack=false;
     }
     void setMobText()
     {
@@ -78,8 +100,8 @@ public class mobcontroller : MonoBehaviour {
         model.transform.Translate(i_Direntionx, 0, i_Direntionz);
 		//用畢氏定理算移動距離
         f_Distance=Mathf.Pow(Mathf.Pow(Mathf.Abs(model.transform.position.x - vec3.x),2)+Mathf.Pow(Mathf.Abs(model.transform.position.y - vec3.y),2),0.5f);
-        
-//不讓他跑出去特定範圍的if條件
+
+        //不讓他跑出去特定範圍的if條件
         if (f_Distance >= i_Mile || model.transform.position.x > 10 || model.transform.position.x < -10 || model.transform.position.z > 10 || model.transform.position.z < -10)
         //用下面這個會亂跑喔
 		//if (f_Distance >= i_Mile )
@@ -95,5 +117,11 @@ public class mobcontroller : MonoBehaviour {
                 //BroadcastMessage("" + i_Direntionx + "," + i_Direntionx);
             } while (i_Direntionx < -0.05f || i_Direntionx > 0.05f || i_Direntionz < -0.05f || i_Direntionz > 0.05f);//限定他的速度範圍 希望能讓其中一項= 0.1或-0.1 但有點問題
         }
+    }
+
+    public void mobHit(int _minus){
+        mobHP -= _minus;
+        ValueShowOut.Born( gameObject, _minus);
+        setMobText();
     }
 }

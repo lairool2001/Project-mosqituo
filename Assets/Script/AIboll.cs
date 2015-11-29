@@ -8,13 +8,11 @@ public class AIboll : MonoBehaviour
     public GameObject target;
     public Transform atk;
     public Transform faratk;
-    //public const int AI_ATTACK_DISTANCE = 2;                    //近戰距離
-    //public const int AI_RENGER_DISTANCE = 5;                   //遠攻距離
     private float timer;
     public float hp = 5;
-    public float renger = 2;                            //攻擊距離
+    public float renger = 2;//攻擊距離
     public int hurt;
-    public int type;                                                                 // 0 是近戰，1 是遠攻，2 是撿東西
+    public int type;// 0 是近戰，1 是遠攻，2 是撿東西
     public float runspeed = 1.5f;
     public float atkspeed = 1.5f;
 
@@ -42,8 +40,13 @@ public class AIboll : MonoBehaviour
             followmob();
         else
             targeted = false;
+
         if (targeted == true)
             far_atk();
+        if (hp <= 0)
+        {
+            Destroyme();
+        }
     }
 
     private void ChooseNearestMob()
@@ -68,23 +71,29 @@ public class AIboll : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Instantiate(atk, transform.position, transform.rotation);
+                other.GetComponent<mobcontroller>().mobHit(hurt);
+                //Instantiate(atk, transform.position, transform.rotation);
                 timer = atkspeed;
             }
         }
-        else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
+        /*else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
         {
+            /*hp--;
+            if (hp <= 0)
+            {
+                Destroyme();
+            }
             mobcontroller mc = GetComponent<mobcontroller>();
             if (mc)
             {
-                hp -= mc.hurt;
+                hp--;//= mc.hurt;
                 ValueShowOut.Born(gameObject, hurt);
                 if (hp <= 0)
                 {
                     Destroyme();
                 }
-            }
-        }
+            }*/
+        //}
     }
 
     void OnTriggerExit(Collider other)
@@ -129,8 +138,9 @@ public class AIboll : MonoBehaviour
             timer = atkspeed;
         }
     }
-    public void mobattack(int attack)
+    public void playerHit(int attack)
     {
         hp -= attack;
+        ValueShowOut.Born(gameObject, attack);
     }
 }

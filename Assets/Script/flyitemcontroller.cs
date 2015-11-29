@@ -5,6 +5,7 @@ public class flyitemcontroller : MonoBehaviour
 {
     public GameObject target;
     public float speed = 5f;
+    private int hit;
     // Use this for initialization
     void Start()
     {
@@ -19,7 +20,7 @@ public class flyitemcontroller : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "mob")
         {

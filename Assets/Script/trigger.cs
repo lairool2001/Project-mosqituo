@@ -3,9 +3,10 @@ using System.Collections;
 
 public class trigger : MonoBehaviour {
 
-    public GameObject mob;
 
+    public int hit;
     // Use this for initialization
+
     void Start() {
 
     }
@@ -15,17 +16,17 @@ public class trigger : MonoBehaviour {
 
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-
-            Destroyme();
+            other.GetComponent<AIboll>().playerHit(hit);
+            //Destroyme();
         }
     }
-    void Destroyme()
-    {
-        Destroy(gameObject);
+
+    public void sethit(int _minus){
+        hit = _minus;
     }
 
 
