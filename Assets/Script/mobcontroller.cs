@@ -57,6 +57,11 @@ public class mobcontroller : MonoBehaviour {
         }*/
 	}
 
+    void OnDestroy()
+    {
+        SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
+    }
+    
     void OnTriggerStay(Collider other)
     {
         /*if (other.gameObject.CompareTag  ("attack")){
