@@ -55,6 +55,7 @@ public class mobcontroller : MonoBehaviour {
                 mcollider.GetComponent<Collider>().enabled = true;
             }
         }*/
+
 	}
 
     void OnDestroy()
@@ -62,7 +63,7 @@ public class mobcontroller : MonoBehaviour {
         SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
     }
     
-    void OnTriggerStay(Collider other)
+    public void TriggerStay(Collider other)
     {
         /*if (other.gameObject.CompareTag  ("attack")){
 
@@ -121,6 +122,18 @@ public class mobcontroller : MonoBehaviour {
                 i_Direntionz = Random.Range(-0.1f, 0.1f);
                 //BroadcastMessage("" + i_Direntionx + "," + i_Direntionx);
             } while (i_Direntionx < -0.05f || i_Direntionx > 0.05f || i_Direntionz < -0.05f || i_Direntionz > 0.05f);//限定他的速度範圍 希望能讓其中一項= 0.1或-0.1 但有點問題
+			if ( model.transform.position.x > 10 ){
+				i_Direntionx = -0.1f;
+			}
+			if(model.transform.position.x < -10){
+				i_Direntionx = 0.1f;
+			}
+			if(model.transform.position.z > 10){
+				i_Direntionz = -0.1f;
+			}
+			if(model.transform.position.z < -10){
+				i_Direntionz = 0.1f;
+			}
         }
     }
 
