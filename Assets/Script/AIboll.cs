@@ -24,20 +24,21 @@ public class AIboll : MonoBehaviour
     {
         timer = atkspeed;
         aMobManager = FindObjectOfType<MobManager>();
+        ChooseNearestMob();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (FindTime < Time.time)
+        /*if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
             ChooseNearestMob();
+        }*/
+        if(!target){
+            ChooseNearestMob();
         }
-        if (aMobManager.MobExit && target)
-            followmob();
-        else
-            targeted = false;
+
 
         if (targeted == true)
             far_atk();
@@ -45,6 +46,12 @@ public class AIboll : MonoBehaviour
         {
             Destroyme();
         }
+    }
+    void FixedUpdate(){
+        if (aMobManager.MobExit && target)
+            followmob();
+        else
+            targeted = false;
     }
 
     private void ChooseNearestMob()
@@ -62,7 +69,7 @@ public class AIboll : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "mob")                 //這是攻擊的時候
         {
