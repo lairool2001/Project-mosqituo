@@ -31,10 +31,12 @@ public class bollcreat : MonoBehaviour
     private GameObject[] touchold;
     private RaycastHit hit;
 
+	float t_start,t_end;
     // Use this for initialization
     void Start()
     {
         setbolltext();              //改變UI上顯示的文字
+		t_start = Time.time; 
     }
 
     // Update is called once per frame
@@ -108,24 +110,28 @@ public class bollcreat : MonoBehaviour
 
     //使用滑鼠生成
     void usemouse(){
+		t_end = Time.time;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//使用Unity內Ray變數將Camera位置到滑鼠位置轉換成一條3D射線
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))//將射線投到物件上，這裡使用物件的Tag名稱以及是否按下滑鼠左鍵作為判斷
         {
-            if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "ground")
+			if (Input.GetMouseButton(0) && (hit.transform.gameObject.tag == "ground" || hit.transform.gameObject.tag == "Player") && t_end - t_start >0.05)
+            {
+                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                clickPosition.y = 0.5f;// Z軸修正
+                                       //print(clickPosition);
+				clickPosition.x += Random.Range(-1f , 1f);
+				clickPosition.z += Random.Range(-1f , 1f);
+                creat();
+				t_start = Time.time;
+            }
+            /*else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
             {
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                 clickPosition.y = 0.5f;// Z軸修正
                                        //print(clickPosition);
                 creat();
-            }
-            else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
-            {
-                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                clickPosition.y = 0.5f;// Z軸修正
-                                       //print(clickPosition);
-                creat();
-            }
+            }*/
         }
     }
 

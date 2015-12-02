@@ -19,6 +19,7 @@ public class AIboll : MonoBehaviour
     private bool targeted = false;
     public float FindTime, FineTimeLength = 0.5f;
     public MobManager aMobManager;
+
     // Use this for initialization
     void Start()
     {
@@ -30,6 +31,7 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         /*if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
@@ -39,6 +41,39 @@ public class AIboll : MonoBehaviour
             ChooseNearestMob();
         }
 
+=======
+		//Physics2D.OverlapPoint (transform.position);
+
+        if (FindTime < Time.time)
+        {
+            FindTime = Time.time + FineTimeLength;
+		}
+		ChooseNearestMob();
+
+        if (aMobManager.MobExit && target) {
+			Collider c= target.GetComponent<Collider> ();
+			bool isHit= c.bounds.Contains (transform.position);
+			if (isHit) {
+
+				if (c.gameObject.tag == "mob")                 //這是攻擊的時候
+				{
+					timer -= Time.deltaTime;
+					if (timer <= 0)
+					{
+						mobcontroller mc= c.GetComponent<mobcontroller>();
+						playerHit(mc.hurt);
+						mc.mobHit(hurt);
+						mc.TriggerStay(GetComponent<Collider>());
+						//Instantiate(atk, transform.position, transform.rotation);
+						timer = atkspeed;
+					}
+				}
+			}
+			followmob ();
+		} else {
+			targeted = false;
+		}
+>>>>>>> origin/master
 
         if (targeted == true)
             far_atk();
@@ -58,17 +93,18 @@ public class AIboll : MonoBehaviour
     {
         System.Collections.Generic.List<mobcontroller> AllMob = aMobManager.AllMob;
         if (AllMob.Count == 0) { return; }
-        float Nearest = Vector2.Distance(AllMob[0].transform.position, transform.position);
+		float Nearest = Vector2.Distance(new Vector2( AllMob[0].transform.position.x, AllMob[0].transform.position.z),new Vector2( transform.position.x,transform.position.z));
         target = AllMob[0].gameObject;
         for (int i = 1; i < AllMob.Count; ++i)
         {
-            float d = Vector2.Distance(AllMob[i].transform.position, transform.position);
+			float d = Vector2.Distance(new Vector2( AllMob[i].transform.position.x,AllMob[i].transform.position.z),new Vector2( transform.position.x,transform.position.z));
             if (d >= Nearest) { continue; }
             d = Nearest;
             target = AllMob[i].gameObject;
         }
     }
 
+<<<<<<< HEAD
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "mob")                 //這是攻擊的時候
@@ -81,6 +117,11 @@ public class AIboll : MonoBehaviour
                 timer = atkspeed;
             }
         }
+=======
+    //void OnTriggerStay(Collider other)
+    //{
+       
+>>>>>>> origin/master
         /*else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
         {
             /*hp--;
@@ -99,7 +140,7 @@ public class AIboll : MonoBehaviour
                 }
             }*/
         //}
-    }
+    //}
 
     void OnTriggerExit(Collider other)
     {
