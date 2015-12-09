@@ -20,7 +20,7 @@ public class trigger : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<AIboll>().playerHit(hit);
+            other.GetComponent<AIboll>().Hitplayer(hit);
             //Destroyme();
         }
     }

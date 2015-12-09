@@ -4,13 +4,12 @@ using UnityEngine.UI;
 
 public class mobcontroller : MonoBehaviour {
     public Text mobHPText;
-    public GameObject Target;
+    //public GameObject Target;
     public Transform atkzon;
     //trigger mcollider;
-    public GameObject mco;
 
     public bool isAttack=false;
-    private float atkTimer;
+    public float atkTimer;
     public int mobHP=50;
     public int hurt = 1;
 
@@ -37,7 +36,6 @@ public class mobcontroller : MonoBehaviour {
         //mcollider = GameObject.Find("hitcollider").GetComponent<trigger>();
         //mcollider.sethit(hurt);
         //trigger mobset = GetComponent<trigger>();
-        mco.GetComponent<trigger>().sethit(hurt);
     }
 
 	// Update is called once per frame
@@ -48,13 +46,6 @@ public class mobcontroller : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        /*if(isAttack){
-            for(atkTimer;atk)
-            atkTimer -= Time.deltaTime;
-            if(atkTimer <= 0){
-                mcollider.GetComponent<Collider>().enabled = true;
-            }
-        }*/
 
 	}
 
@@ -62,44 +53,17 @@ public class mobcontroller : MonoBehaviour {
     {
         SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
     }
-<<<<<<< HEAD
-
-    void OnTriggerEnter(Collider other)
-=======
-    
     public void TriggerStay(Collider other)
->>>>>>> origin/master
     {
-        /*if (other.gameObject.CompareTag  ("attack")){
-
-            mobHP-=hurt;
-            ValueShowOut.Born( gameObject, hurt);
-            setMobText();
-        }
-        else */if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            //isAttack=true;
             atkTimer -= Time.deltaTime;
             if (atkTimer <= 0)
                 {
-                other.GetComponent<AIboll>().playerHit(hurt);
-
-                /*Instantiate(atkzon, transform.position, transform.rotation);
-                Destroy(other);*/
+                other.GetComponent<AIboll>().Hitplayer(hurt);
                 atkTimer = 3;
                 }
         }
-    }
-
-    IEnumerator wait(){
-        yield return new WaitForSeconds(3);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-            //atkTimer = 6;
-            isAttack=false;
     }
     void setMobText()
     {
@@ -142,7 +106,7 @@ public class mobcontroller : MonoBehaviour {
         }
     }
 
-    public void mobHit(int _minus){
+    public void Hitmob(int _minus){
         mobHP -= _minus;
         ValueShowOut.Born( gameObject, _minus);
         setMobText();

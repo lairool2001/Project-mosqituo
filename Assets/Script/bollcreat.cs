@@ -23,7 +23,7 @@ public class bollcreat : MonoBehaviour
     private int rcount = 3000;        //物件的數量
     private int bcount = 3000;
     private int gcount = 3000;
-    private int tc = 0;
+
     bool ignoreClick;
 
     //多點觸控測試
@@ -36,7 +36,7 @@ public class bollcreat : MonoBehaviour
     void Start()
     {
         setbolltext();              //改變UI上顯示的文字
-		t_start = Time.time; 
+		t_start = Time.time;
     }
 
     // Update is called once per frame
@@ -72,7 +72,6 @@ public class bollcreat : MonoBehaviour
         rText.text = "X:" + rcount.ToString();
         gText.text = "X:" + gcount.ToString();
         bText.text = "X:" + bcount.ToString();
-        count.text = tc.ToString();
     }
 
     void creat()          //生成球的程式碼
@@ -100,10 +99,6 @@ public class bollcreat : MonoBehaviour
                 Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
                 gcount--;
             }
-        }
-        else{
-            Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
-            tc++;
         }
         setbolltext();
     }

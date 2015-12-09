@@ -19,8 +19,12 @@ public class AIboll : MonoBehaviour
     private bool targeted = false;
     public float FindTime, FineTimeLength = 0.5f;
     public MobManager aMobManager;
-
+    mobcontroller mc;
     // Use this for initialization
+    void Awake(){
+
+    }
+
     void Start()
     {
         timer = atkspeed;
@@ -31,49 +35,42 @@ public class AIboll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        /*if (FindTime < Time.time)
-        {
-            FindTime = Time.time + FineTimeLength;
-            ChooseNearestMob();
-        }*/
-        if(!target){
-            ChooseNearestMob();
-        }
-
-=======
 		//Physics2D.OverlapPoint (transform.position);
 
         if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
 		}
-		ChooseNearestMob();
+        if(!target){
+            ChooseNearestMob();
+        }
 
         if (aMobManager.MobExit && target) {
 			Collider c= target.GetComponent<Collider> ();
 			bool isHit= c.bounds.Contains (transform.position);
 			if (isHit) {
 
-				if (c.gameObject.tag == "mob")                 //這是攻擊的時候
+				if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
 				{
+                    mc= c.GetComponent<mobcontroller>();
 					timer -= Time.deltaTime;
+                    mc.atkTimer -= Time.deltaTime;
+                    //mc.TriggerStay(GetComponent<Collider>());
 					if (timer <= 0)
 					{
-						mobcontroller mc= c.GetComponent<mobcontroller>();
-						playerHit(mc.hurt);
-						mc.mobHit(hurt);
-						mc.TriggerStay(GetComponent<Collider>());
-						//Instantiate(atk, transform.position, transform.rotation);
+						mc.Hitmob(hurt);
 						timer = atkspeed;
 					}
+                    if(mc.atkTimer <= 0){
+                        Hitplayer(mc.hurt);
+                        mc.atkTimer = 3;
+                    }
 				}
 			}
 			followmob ();
 		} else {
 			targeted = false;
 		}
->>>>>>> origin/master
 
         if (targeted == true)
             far_atk();
@@ -81,12 +78,6 @@ public class AIboll : MonoBehaviour
         {
             Destroyme();
         }
-    }
-    void FixedUpdate(){
-        if (aMobManager.MobExit && target)
-            followmob();
-        else
-            targeted = false;
     }
 
     private void ChooseNearestMob()
@@ -103,52 +94,6 @@ public class AIboll : MonoBehaviour
             target = AllMob[i].gameObject;
         }
     }
-
-<<<<<<< HEAD
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "mob")                 //這是攻擊的時候
-        {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                other.GetComponent<mobcontroller>().mobHit(hurt);
-                //Instantiate(atk, transform.position, transform.rotation);
-                timer = atkspeed;
-            }
-        }
-=======
-    //void OnTriggerStay(Collider other)
-    //{
-       
->>>>>>> origin/master
-        /*else if (other.gameObject.CompareTag("atkzon"))      //這是被打到的時候
-        {
-            /*hp--;
-            if (hp <= 0)
-            {
-                Destroyme();
-            }
-            mobcontroller mc = GetComponent<mobcontroller>();
-            if (mc)
-            {
-                hp--;//= mc.hurt;
-                ValueShowOut.Born(gameObject, hurt);
-                if (hp <= 0)
-                {
-                    Destroyme();
-                }
-            }*/
-        //}
-    //}
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "mob")
-
-            timer = atkspeed;
-    }
-
     void Destroyme()
     {
         Destroy(gameObject);
@@ -156,7 +101,10 @@ public class AIboll : MonoBehaviour
 
     void followmob()
     {
-        if (type == 0)  //近戰
+        transform.LookAt(target.transform); //保持物件一直面朝target
+        if (Vector3.Distance(transform.position, target.transform.position) > renger)
+            transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
+        /*if (type == 0)  //近戰
         {
             transform.LookAt(target.transform); //保持物件一直面朝target
             if (Vector3.Distance(transform.position, target.transform.position) > renger)
@@ -172,7 +120,7 @@ public class AIboll : MonoBehaviour
             }
             else
                 targeted = true;
-        }
+        }*/
     }
 
     void far_atk()
@@ -184,7 +132,7 @@ public class AIboll : MonoBehaviour
             timer = atkspeed;
         }
     }
-    public void playerHit(int attack)
+    public void Hitplayer(int attack)
     {
         hp -= attack;
         ValueShowOut.Born(gameObject, attack);
