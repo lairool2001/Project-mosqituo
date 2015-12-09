@@ -19,6 +19,8 @@ public class AIboll : MonoBehaviour
     private bool targeted = false;
     public float FindTime, FineTimeLength = 0.5f;
     public MobManager aMobManager;
+
+	//public bool Moving;
     mobcontroller mc;
     // Use this for initialization
     void Awake(){
@@ -40,33 +42,36 @@ public class AIboll : MonoBehaviour
         if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
+			if (aMobManager.MobExit && target) {
+				Collider c= target.GetComponent<Collider> ();
+				bool isHit= c.bounds.Contains (transform.position);
+				//Moving=isHit;
+				if (isHit) {
+					
+					if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
+					{
+						mc= c.GetComponent<mobcontroller>();
+						timer -= Time.deltaTime;
+						mc.atkTimer -= Time.deltaTime;
+						//mc.TriggerStay(GetComponent<Collider>());
+						if (timer <= 0)
+						{
+							mc.Hitmob(hurt);
+							timer = atkspeed;
+						}
+						if(mc.atkTimer <= 0){
+							Hitplayer(mc.hurt);
+							mc.atkTimer = 3;
+						}
+					}
+				}
+			} 
 		}
         if(!target){
             ChooseNearestMob();
         }
 
         if (aMobManager.MobExit && target) {
-			Collider c= target.GetComponent<Collider> ();
-			bool isHit= c.bounds.Contains (transform.position);
-			if (isHit) {
-
-				if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
-				{
-                    mc= c.GetComponent<mobcontroller>();
-					timer -= Time.deltaTime;
-                    mc.atkTimer -= Time.deltaTime;
-                    //mc.TriggerStay(GetComponent<Collider>());
-					if (timer <= 0)
-					{
-						mc.Hitmob(hurt);
-						timer = atkspeed;
-					}
-                    if(mc.atkTimer <= 0){
-                        Hitplayer(mc.hurt);
-                        mc.atkTimer = 3;
-                    }
-				}
-			}
 			followmob ();
 		} else {
 			targeted = false;

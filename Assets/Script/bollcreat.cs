@@ -113,7 +113,8 @@ public class bollcreat : MonoBehaviour
 			if (Input.GetMouseButton(0) && (hit.transform.gameObject.tag == "ground" || hit.transform.gameObject.tag == "Player") && t_end - t_start >0.05)
             {
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                clickPosition.y = 0.5f;// Z軸修正
+                //clickPosition.y = 0.5f;// Z軸修正
+				clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
                                        //print(clickPosition);
 				clickPosition.x += Random.Range(-1f , 1f);
 				clickPosition.z += Random.Range(-1f , 1f);
@@ -155,14 +156,24 @@ public class bollcreat : MonoBehaviour
                             clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                             clickPosition.y = 0.5f; // Z軸修正
                                                     //print(clickPosition);
-                            creat();
+						clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
+						//print(clickPosition);
+						clickPosition.x += Random.Range(-1f , 1f);
+						clickPosition.z += Random.Range(-1f , 1f);
+						creat();
+						t_start = Time.time;
                         }
                         else if (hit.transform.gameObject.tag == "Player")
                         {
                             clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                             clickPosition.y = 0.5f; // Z軸修正
                                                     //print(clickPosition);
-                            creat();
+						clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
+						//print(clickPosition);
+						clickPosition.x += Random.Range(-1f , 1f);
+						clickPosition.z += Random.Range(-1f , 1f);
+						creat();
+						t_start = Time.time;
                         }
 
                         /* if (touch.phase == TouchPhase.Began)
