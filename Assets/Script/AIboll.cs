@@ -47,7 +47,7 @@ public class AIboll : MonoBehaviour
 				bool isHit= c.bounds.Contains (transform.position);
 				//Moving=isHit;
 				if (isHit) {
-					
+
 					if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
 					{
 						mc= c.GetComponent<mobcontroller>();
@@ -65,7 +65,7 @@ public class AIboll : MonoBehaviour
 						}
 					}
 				}
-			} 
+			}
 		}
         if(!target){
             ChooseNearestMob();
@@ -81,9 +81,13 @@ public class AIboll : MonoBehaviour
             far_atk();
         if (hp <= 0)
         {
-            Destroyme();
+            OnDisable();
         }
     }
+    
+    void OnDisable(){
+		this.gameObject.SetActive(false);
+	}
 
     private void ChooseNearestMob()
     {

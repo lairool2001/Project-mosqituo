@@ -76,11 +76,19 @@ public class bollcreat : MonoBehaviour
 
     void creat()          //生成球的程式碼
     {
+        clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
+        //print(clickPosition);
+        clickPosition.x += Random.Range(-1f , 1f);
+        clickPosition.z += Random.Range(-1f , 1f);
         if (bollname == "characterred")
         {
             if (rcount > 0)
             {
-                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                GameObject obj = playerpoolmanager3._istance.GetPooledObject();
+                if(obj == null)return;
+                obj.transform.position = clickPosition;
+                obj.transform.GetComponent<AIboll>().hp = 5;
+                obj.SetActive(true);
                 rcount--;
             }
         }
@@ -88,7 +96,11 @@ public class bollcreat : MonoBehaviour
         {
             if (bcount > 0)
             {
-                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                GameObject obj = playerpoolmanager2._istance.GetPooledObject();
+                if(obj == null)return;
+                obj.transform.position = clickPosition;
+                obj.transform.GetComponent<AIboll>().hp = 5;
+                obj.SetActive(true);
                 bcount--;
             }
         }
@@ -96,7 +108,11 @@ public class bollcreat : MonoBehaviour
         {
             if (gcount > 0)
             {
-                Instantiate(Prefab, clickPosition, Prefab.transform.rotation);
+                GameObject obj = playerpoolmanager._istance.GetPooledObject();
+                if(obj == null)return;
+                obj.transform.position = clickPosition;
+                obj.transform.GetComponent<AIboll>().hp = 5;
+                obj.SetActive(true);
                 gcount--;
             }
         }
@@ -113,21 +129,9 @@ public class bollcreat : MonoBehaviour
 			if (Input.GetMouseButton(0) && (hit.transform.gameObject.tag == "ground" || hit.transform.gameObject.tag == "Player") && t_end - t_start >0.05)
             {
                 clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                //clickPosition.y = 0.5f;// Z軸修正
-				clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
-                                       //print(clickPosition);
-				clickPosition.x += Random.Range(-1f , 1f);
-				clickPosition.z += Random.Range(-1f , 1f);
                 creat();
 				t_start = Time.time;
             }
-            /*else if (Input.GetMouseButton(0) && hit.transform.gameObject.tag == "Player")
-            {
-                clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                clickPosition.y = 0.5f;// Z軸修正
-                                       //print(clickPosition);
-                creat();
-            }*/
         }
     }
 
@@ -146,34 +150,16 @@ public class bollcreat : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(touch.position);
 
 
-                    if (Physics.Raycast(ray, out hit/*, touchInputmask*/))
+                    if (Physics.Raycast(ray, out hit))
                     {
                         GameObject recipient = hit.transform.gameObject;
                         touchList.Add(recipient);
 
-                        if (hit.transform.gameObject.tag == "ground")
+                        if (hit.transform.gameObject.tag == "ground" || hit.transform.gameObject.tag == "Player" && t_end - t_start >0.05)
                         {
                             clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                            clickPosition.y = 0.5f; // Z軸修正
-                                                    //print(clickPosition);
-						clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
-						//print(clickPosition);
-						clickPosition.x += Random.Range(-1f , 1f);
-						clickPosition.z += Random.Range(-1f , 1f);
-						creat();
-						t_start = Time.time;
-                        }
-                        else if (hit.transform.gameObject.tag == "Player")
-                        {
-                            clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                            clickPosition.y = 0.5f; // Z軸修正
-                                                    //print(clickPosition);
-						clickPosition.y += Random.Range(-0.5f , 0.5f);// Z軸亂數剛體
-						//print(clickPosition);
-						clickPosition.x += Random.Range(-1f , 1f);
-						clickPosition.z += Random.Range(-1f , 1f);
-						creat();
-						t_start = Time.time;
+                            creat();
+						    t_start = Time.time;
                         }
 
                         /* if (touch.phase == TouchPhase.Began)
