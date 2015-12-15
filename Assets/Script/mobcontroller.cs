@@ -41,7 +41,7 @@ public class mobcontroller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
-        run(test);
+        //run(test);
         if (mobHP <= 0)
         {
             Destroy(gameObject);
@@ -69,7 +69,7 @@ public class mobcontroller : MonoBehaviour {
     {
         mobHPText.text = "HP: " + mobHP.ToString();
     }
-    void run(Vector3 vec3)
+    /*void run(Vector3 vec3)
     {
 		//決定了移動的方向 但也會影響到移動速度(必須解決)
         model.transform.Translate(i_Direntionx, 0, i_Direntionz);
@@ -104,7 +104,7 @@ public class mobcontroller : MonoBehaviour {
 				i_Direntionz = 0.1f;
 			}
         }
-    }
+    }*/
 
     public void Hitmob(int _minus){
         mobHP -= _minus;
