@@ -3,6 +3,8 @@ using System.Collections;
 
 public class bollatkzon : MonoBehaviour {
 
+    private AIboll atk;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -16,7 +18,7 @@ public class bollatkzon : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("mob"))
-        {
+        {            
             Destroyme();
         }
     }

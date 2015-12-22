@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\AIboll.cs">
+    <Files>
+      <File FileName="..\Infini-Davicci - 1209\Assets\Script\mobcontroller.cs" Line="43" Column="1" />
+      <File FileName="Assets\Script\AIboll.cs" Line="53" Column="10" />
+      <File FileName="Assets\Script\MaterialAnimation.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\mobcontroller.cs" Line="99" Column="5" />
+      <File FileName="Assets\Script\bollcreat.cs" Line="176" Column="27" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
