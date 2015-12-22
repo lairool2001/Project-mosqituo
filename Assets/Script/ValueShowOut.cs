@@ -11,8 +11,10 @@ public partial class ValueShowOut : BGWBase
 {
     public Text aText;
     public Vector3 Direction;
-    public float Range = 1,FadeSpeed=0.3f;
+    public float Range = 1, FadeSpeed = 0.3f;
     public static ValueShowOut m;
+    public static Queue<GameObject> ValueShowOutQueue = new Queue<GameObject>();
+    public const int MaxQueue = 200;
 }
 public partial class ValueShowOut : BGWBase
 {
@@ -23,15 +25,23 @@ public partial class ValueShowOut : BGWBase
     void Update()
     {
         transform.position += Direction * Time.deltaTime;
-        if (aText.color.a>0)
+        if (aText.color.a > 0)
         {
-            var c= aText.color;
+            var c = aText.color;
             c.a -= Time.deltaTime * FadeSpeed;
             aText.color = c;
         }
         else
         {
-            Destroy(gameObject);
+            if (ValueShowOutQueue.Count < MaxQueue)
+            {
+                gameObject.SetActive(false);
+                ValueShowOutQueue.Enqueue(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
     public void SetValue(int v)
@@ -54,13 +64,24 @@ public partial class ValueShowOut : BGWBase
     /// <param name="v">數值</param>
     /// <param name="range">範圍(單位:視窗單位)</param>
     /// <param name="fadeSpeed">完全淡化所需時間)</param>
-    public static void Born(GameObject mother, int v,float range,float fadeSpeed)
+    public static void Born(GameObject mother, int v, float range, float fadeSpeed)
     {
-        if (m==null)
+        if (m == null)
         {
             m = ValueShowOut.FindObjectOfType<ValueShowOut>();
         }
-        var vso = Instantiate<ValueShowOut>(m);
+        ValueShowOut vso;
+        if (ValueShowOutQueue.Count >0)
+        {
+            GameObject g = ValueShowOutQueue.Dequeue();
+            g.SetActive(true);
+            vso = g.GetComponent<ValueShowOut>();
+        }
+        else
+        {
+            vso = Instantiate<ValueShowOut>(m);
+        }
+
         vso.gameObject.name = "ValueShowOut:" + Time.time;
         vso.Range = range;
         vso.FadeSpeed = fadeSpeed;

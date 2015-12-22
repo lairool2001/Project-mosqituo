@@ -6,6 +6,9 @@ public class AIboll : MonoBehaviour
 {
     //public NavMeshAgent player;
     public GameObject target;
+    public Hitz targetHitz;
+    public int targetIndex;
+
     public Transform atk;
     public Transform faratk;
     private float timer;
@@ -102,6 +105,8 @@ public class AIboll : MonoBehaviour
             d = Nearest;
             target = AllMob[i].gameObject;
         }
+        targetHitz = target.GetComponent<Hitz>();
+        targetIndex = Random.Range(0, targetHitz.pointz.Count - 1);
     }
     void Destroyme()
     {
@@ -110,7 +115,8 @@ public class AIboll : MonoBehaviour
 
     void followmob()
     {
-        transform.LookAt(target.transform); //保持物件一直面朝target
+        Vector3 t = target.transform.position + targetHitz.pointz[targetIndex];
+        transform.LookAt(t); //保持物件一直面朝target
         if (Vector3.Distance(transform.position, target.transform.position) > renger)
             transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
         /*if (type == 0)  //近戰
