@@ -6,6 +6,9 @@ public class AIboll : MonoBehaviour
 {
     //public NavMeshAgent player;
     public GameObject target;
+    public Hitz targetHitz;
+    public int targetIndex;
+
     public Transform atk;
     public Transform faratk;
     private float timer;
@@ -19,8 +22,7 @@ public class AIboll : MonoBehaviour
     private bool targeted = false;
     public float FindTime, FineTimeLength = 0.5f;
     public MobManager aMobManager;
-
-	//public bool Moving;
+    //public bool Moving;
     mobcontroller mc;
     // Use this for initialization
     void Awake(){
@@ -42,18 +44,18 @@ public class AIboll : MonoBehaviour
         if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
-			if (aMobManager.MobExit && target) {
-				Collider c= target.GetComponent<Collider> ();
-				bool isHit= c.bounds.Contains (transform.position);
-				//Moving=isHit;
-				if (isHit) {
-
-					if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
+			if (aMobManager.MobExit && target)
+            {
+                Collider c = target.GetComponent<Collider>();
+                bool isHit= c.bounds.Contains (transform.position);
+				if (isHit)
+                {
+                    //這是攻擊的時候
+                    if (c.gameObject.CompareTag("mob"))                 
 					{
 						mc= c.GetComponent<mobcontroller>();
 						timer -= Time.deltaTime;
 						mc.atkTimer -= Time.deltaTime;
-						//mc.TriggerStay(GetComponent<Collider>());
 						if (timer <= 0)
 						{
 							mc.Hitmob(hurt);
@@ -102,6 +104,8 @@ public class AIboll : MonoBehaviour
             d = Nearest;
             target = AllMob[i].gameObject;
         }
+        targetHitz = target.GetComponent<Hitz>();
+        targetIndex = Random.Range(0, targetHitz.pointz.Count - 1);
     }
     void Destroyme()
     {
@@ -110,7 +114,8 @@ public class AIboll : MonoBehaviour
 
     void followmob()
     {
-        transform.LookAt(target.transform); //保持物件一直面朝target
+        Vector3 t = target.transform.position + targetHitz.pointz[targetIndex];
+        transform.LookAt(t); //保持物件一直面朝target
         if (Vector3.Distance(transform.position, target.transform.position) > renger)
             transform.Translate(Vector3.forward * Time.deltaTime * runspeed);
         /*if (type == 0)  //近戰

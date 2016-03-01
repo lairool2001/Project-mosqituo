@@ -8,10 +8,14 @@ public class bollcreat : MonoBehaviour
 
     public GameObject Prefab;       //召喚的物件
     private string bollname;        //召喚的物件的名字
-
+    public List<CharacterMake> CharacterMakez;
+    public CharacterMake NowCharacterMake;
+    /*
     public Text rText;              //UI的文字訊息
     public Text bText;
     public Text gText;
+    使用CharacterMakez控制*/
+
     public Text count;
 
     // クリックした位置座標
@@ -53,8 +57,9 @@ public class bollcreat : MonoBehaviour
 
     }
 
-    public void bollchange(GameObject boll) //用來取得按鈕的事件
+    public void bollchange(GameObject boll, CharacterMake make) //用來取得按鈕的事件
     {
+        NowCharacterMake = make;
         Prefab = boll;                      //按下按鈕之後，對應的物件會成為Prrefad
         bollname = boll.name;               //取得對應物件的名稱
     }
@@ -69,9 +74,11 @@ public class bollcreat : MonoBehaviour
 
     void setbolltext()
     {
+        /*
         rText.text = "X:" + rcount.ToString();
         gText.text = "X:" + gcount.ToString();
         bText.text = "X:" + bcount.ToString();
+        使用CharacterMakez控制*/
     }
 
     void creat()          //生成球的程式碼
@@ -80,43 +87,37 @@ public class bollcreat : MonoBehaviour
         //print(clickPosition);
         clickPosition.x += Random.Range(-1f , 1f);
         clickPosition.z += Random.Range(-1f , 1f);
-        if (bollname == "characterred")
+        if (NowCharacterMake.Count > 0)
         {
-            if (rcount > 0)
+            NowCharacterMake.Count--;
+
+            if (bollname == "characterred")
             {
                 GameObject obj = playerpoolmanager3._istance.GetPooledObject();
-                if(obj == null)return;
+                if (obj == null) return;
                 obj.transform.position = clickPosition;
                 obj.transform.GetComponent<AIboll>().hp = 5;
                 obj.SetActive(true);
-                rcount--;
             }
-        }
-        else if (bollname == "characterblue")
-        {
-            if (bcount > 0)
+            else if (bollname == "characterblue")
             {
                 GameObject obj = playerpoolmanager2._istance.GetPooledObject();
-                if(obj == null)return;
+                if (obj == null) return;
                 obj.transform.position = clickPosition;
                 obj.transform.GetComponent<AIboll>().hp = 5;
                 obj.SetActive(true);
-                bcount--;
             }
-        }
-        else if (bollname == "charactergreen")
-        {
-            if (gcount > 0)
+            else if (bollname == "charactergreen")
             {
                 GameObject obj = playerpoolmanager._istance.GetPooledObject();
-                if(obj == null)return;
+                if (obj == null) return;
                 obj.transform.position = clickPosition;
                 obj.transform.GetComponent<AIboll>().hp = 5;
                 obj.SetActive(true);
-                gcount--;
             }
         }
-        setbolltext();
+        
+        //setbolltext();
     }
 
     //使用滑鼠生成

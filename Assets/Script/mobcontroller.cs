@@ -30,7 +30,6 @@ public class mobcontroller : MonoBehaviour {
         //mobHP = 50;
         atkTimer = 3;
         setMobText();
-        model = GameObject.Find("Mob");
         model = gameObject;
         test = model.transform.localPosition;
         //mcollider = GameObject.Find("hitcollider").GetComponent<trigger>();
@@ -40,7 +39,7 @@ public class mobcontroller : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
+        //mobHPText.rectTransform.position = Camera.main.WorldToScreenPoint(model.transform.position);
         //run(test);
         if (mobHP <= 0)
         {
@@ -53,6 +52,7 @@ public class mobcontroller : MonoBehaviour {
     {
         SendMessageUpwards("OnMobDie", this, SendMessageOptions.DontRequireReceiver);
     }
+    /*
     public void TriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -65,6 +65,7 @@ public class mobcontroller : MonoBehaviour {
                 }
         }
     }
+    */
     void setMobText()
     {
         mobHPText.text = "HP: " + mobHP.ToString();
