@@ -22,8 +22,7 @@ public class AIboll : MonoBehaviour
     private bool targeted = false;
     public float FindTime, FineTimeLength = 0.5f;
     public MobManager aMobManager;
-
-	//public bool Moving;
+    //public bool Moving;
     mobcontroller mc;
     // Use this for initialization
     void Awake(){
@@ -45,18 +44,18 @@ public class AIboll : MonoBehaviour
         if (FindTime < Time.time)
         {
             FindTime = Time.time + FineTimeLength;
-			if (aMobManager.MobExit && target) {
-				Collider c= target.GetComponent<Collider> ();
-				bool isHit= c.bounds.Contains (transform.position);
-				//Moving=isHit;
-				if (isHit) {
-
-					if (c.gameObject.CompareTag("mob"))                 //這是攻擊的時候
+			if (aMobManager.MobExit && target)
+            {
+                Collider c = target.GetComponent<Collider>();
+                bool isHit= c.bounds.Contains (transform.position);
+				if (isHit)
+                {
+                    //這是攻擊的時候
+                    if (c.gameObject.CompareTag("mob"))                 
 					{
 						mc= c.GetComponent<mobcontroller>();
 						timer -= Time.deltaTime;
 						mc.atkTimer -= Time.deltaTime;
-						//mc.TriggerStay(GetComponent<Collider>());
 						if (timer <= 0)
 						{
 							mc.Hitmob(hurt);

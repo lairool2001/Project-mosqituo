@@ -20,7 +20,14 @@ public partial class ValueShowOut : BGWBase
 {
     public void Start()
     {
+        OnEnable();
+    }
+    public void OnEnable()
+    {
         Direction = new Vector3(Random.Range(-Range, Range), Random.Range(-Range, Range));
+        Color c = aText.color;
+        c.a = 1;
+        aText.color = c;
     }
     void Update()
     {
@@ -55,7 +62,7 @@ public partial class ValueShowOut : BGWBase
     /// <param name="v">數值</param>
     public static void Born(GameObject mother, int v)
     {
-        Born(mother, v, 100, 0.5f);
+        Born(mother, v, 100, 1f);
     }
     /// <summary>
     /// 用來產生文字飛濺
@@ -85,7 +92,6 @@ public partial class ValueShowOut : BGWBase
         vso.gameObject.name = "ValueShowOut:" + Time.time;
         vso.Range = range;
         vso.FadeSpeed = fadeSpeed;
-        vso.Start();
         vso.transform.SetParent(Canvas.FindObjectOfType<Canvas>().transform);
         vso.transform.position = Camera.main.WorldToScreenPoint(mother.transform.position);
         vso.SetValue(v);
